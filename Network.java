@@ -27,7 +27,7 @@ public class Network {
     }
     public User getUser(String name) {
         for (int i = 0 ; i < userCount ; i++){
-            if(users[i].getName().equals(name)){
+            if (users[i].getName().equalsIgnoreCase(name)) {
                 return users[i];
             }
         }
@@ -58,6 +58,7 @@ public class Network {
      *  the user that has the maximal mutual number of followees as the user with the given name. */
     public String recommendWhoToFollow(String name) {
         User user1 = getUser(name);
+        if (user1 == null || userCount <= 1) return null;
         String name1 = user1.getName();
         int user2Place = 0;
         int count = -1;
@@ -77,6 +78,7 @@ public class Network {
     /** Computes and returns the name of the most popular user in this network: 
      *  The user who appears the most in the follow lists of all the users. */
     public String mostPopularUser() {
+        if (userCount == 0) return null;
         int bestNumOfFollowers = -1;
         int bestUser = -1;
         int count = 0;
@@ -109,11 +111,14 @@ public class Network {
 
     // Returns a textual description of all the users in this network, and who they follow.
     public String toString() {
-       String ans = "";
-       for (int i = 0; i < userCount; i++) {
-        ans = ans + users[i].toString() + "; ";
-    }
-       return ans;
+        String ans = "Network:\n";
+        for (int i = 0; i < userCount; i++) {
+            ans += users[i].toString(); 
+            if (i < userCount - 1) { 
+                ans += "\n";
+            }
+        }
+        return ans;
     }
     
 }

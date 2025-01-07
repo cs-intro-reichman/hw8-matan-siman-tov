@@ -44,7 +44,7 @@
     /** If this user follows the given name, returns true; otherwise returns false. */
     public boolean follows(String name) {
         for (int i = 0 ; i < fCount ; i++){
-            if (follows[i].equals(name)) {
+            if (follows[i].equalsIgnoreCase(name)) {
                 return true;
             }
         }
@@ -53,11 +53,10 @@
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        if (fCount==maxfCount) return false;
-        if (this.follows(name)) return false;
+        if (fCount == maxfCount || this.follows(name)) return false;
         follows[fCount] = name;
         fCount++;
-        return false;
+        return true;
     }
 
     /** Removes the given name from the follows list of this user. If successful, returns true.
@@ -66,7 +65,7 @@
         if (!this.follows(name)) return false;
         int index = -1;
         for (int i = 0 ; i < fCount ; i++){
-            if (follows[i].equals(name)) {
+            if (follows[i].equalsIgnoreCase(name)) {
                 follows[i] = null;
                 index = i;
             }
@@ -99,9 +98,12 @@
     }
     /** Returns this user's name, and the names that s/he follows. */
     public String toString() {
-        String ans = name + " -> ";
+        String ans = name + " ->";
         for (int i = 0; i < fCount; i++) {
-            ans = ans + follows[i] + " ";
+            ans += " " + follows[i];
+            if (i < fCount - 1) { 
+                ans += " ";
+            }
         }
         return ans;
     }
